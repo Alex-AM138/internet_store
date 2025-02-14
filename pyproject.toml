@@ -1,0 +1,27 @@
+[tool.poetry]
+name = "internet-store"
+version = "0.1.0"
+description = ""
+authors = ["Aleksandr Melnikov <Melnikbtw@yandex.ru>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.13"
+isort = "^6.0.0"
+flake8 = "^7.1.1"
+black = "^25.1.0"
+mypy = "^1.15.0"
+pandas = "^2.2.3"
+requests = "^2.32.3"
+pytest = "^8.3.4"
+openpyxl = "^3.1.5"
+datetime = "^5.5"
+logging = "^0.4.9.6"
+python-dotenv = "^1.0.1"
+pathlib = "^1.0.1"
+pytest-cov = "^6.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
