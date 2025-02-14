@@ -14,7 +14,7 @@ def json_reader(filename: str) -> dict:
 
 def load_obj_from_json(file) -> list:
     """
-    Функция на вход принимает данные из JSON - файла и выводит класс категории товаров
+    Функция на вход принимает данные из JSON - файла и выводит класс категории товаров.
     """
     categories = []
     for category in file:
