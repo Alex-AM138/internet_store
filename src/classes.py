@@ -2,6 +2,7 @@ class Product:
     """
     Класс для представления товара.
     """
+
     name: str
     description: str
     price: float
@@ -18,13 +19,12 @@ class Category:
     """
     Класс для представления категории товаров.
     """
+
     name: str
     description: str
     product: list
     categories_count = 0
     products_count = 0
-
-
 
     def __init__(self, name, description, products):
         self.name = name
