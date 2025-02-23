@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, Product
+from src.classes import Category, Iterator, Product
 
 
 def test_new_product_creation():
@@ -135,3 +135,81 @@ def test_products_getter():
 
     expected_output = "Nokia777, 30 руб. Остаток 20 шт. \n"
     assert category.products == expected_output
+
+
+def test_iteration():
+    products = ["Ноутбук", "Смартфон", "Планшет"]
+    iterator = Iterator(products)
+
+    assert next(iterator) == "Ноутбук"
+    assert next(iterator) == "Смартфон"
+    assert next(iterator) == "Планшет"
+
+    with pytest.raises(StopIteration):
+        next(iterator)
+
+
+def test_empty_iteration():
+    empty_iterator = Iterator([])
+
+    with pytest.raises(StopIteration):
+        next(empty_iterator)
+
+
+def test_reiteration():
+    products = ["Ноутбук", "Смартфон"]
+    iterator = Iterator(products)
+
+    assert next(iterator) == "Ноутбук"
+    assert next(iterator) == "Смартфон"
+
+    iterator.index = 0
+    assert next(iterator) == "Ноутбук"
+    assert next(iterator) == "Смартфон"
+
+
+def test_category_init():
+
+    product1 = Product("Ноутбук", "Ноутбук для работы", 50000, 10)
+    product2 = Product("Смартфон", "Смартфон обычный", 30000, 5)
+
+    category = Category("Электроника", "Техника для дома и офиса", [product1, product2])
+
+    assert category.name == "Электроника"
+    assert category.description == "Техника для дома и офиса"
+    assert len(category._Category__products) == 2
+    assert Category.categories_count == 4
+    assert Category.product_count == 6
+
+
+def test_category_str():
+    product1 = Product("Ноутбук", "Ноутбук для работы", 50000, 10)
+    product2 = Product("Смартфон", "Смартфон обычный", 30000, 5)
+
+    category = Category("Электроника", "Техника для дома и офиса", [product1, product2])
+
+    assert str(category) == "Электроника, количество продуктов: 15 шт."
+
+
+def test_empty_category():
+    category = Category("Пустая категория", "Нет продуктов", [])
+
+    assert category.name == "Пустая категория"
+    assert category.description == "Нет продуктов"
+    assert len(category._Category__products) == 0
+    assert str(category) == "Пустая категория, количество продуктов: 0 шт."
+
+
+def test_product_str():
+    product = Product("Смартфон", "Современный смартфон", 30000, 5)
+
+    expected_str = "Смартфон, 30000 руб. Остаток: 5 шт.\n"
+    assert str(product) == expected_str
+
+
+def test_product_addition():
+    product1 = Product("Ноутбук", "Мощный ноутбук", 50000, 2)
+    product2 = Product("Смартфон", "Современный смартфон", 30000, 3)
+
+    total_cost = product1 + product2
+    assert total_cost == 50000 * 2 + 30000 * 3  # 100000 + 90000 = 190000
