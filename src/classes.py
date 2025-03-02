@@ -18,7 +18,9 @@ class Product:
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.\n"
 
     def __add__(self, other):
-        return self.__price * self.quantity + other.price * other.quantity
+        if type(self) is type(other):
+            return self.__price * self.quantity + other.price * other.quantity
+        raise TypeError
 
     @classmethod
     def new_product(cls, product_data, product_list=None):
@@ -85,7 +87,7 @@ class Category:
         return f"{self.name}, количество продуктов: {total_of_products} шт."
 
     def add_product(self, product):
-        if isinstance(product, Product):
+        if isinstance(product, Product) or issubclass(self.__class__, Product):
             self.__products.append(product)
             self.product_count += 1
         else:
@@ -100,6 +102,7 @@ class Category:
 
 
 class Iterator:
+    """Класс для итерации по категориям"""
 
     def __init__(self, product_category):
         self.product_category = product_category
@@ -114,3 +117,28 @@ class Iterator:
             self.index += 1
             return value
         raise StopIteration
+
+
+class Smartphone(Product):
+    """Класс наследователь для смартфонов от класса Product"""
+
+    def __init__(
+        self, name, description, price, quantity, efficiency, model, memory, color
+    ):
+        super().__init__(name, description, price, quantity)
+        self.efficiency = efficiency
+        self.model = model
+        self.memory = memory
+        self.color = color
+
+
+class LawnGrass(Product):
+    """Класс наследователь для травки от класса Product"""
+
+    def __init__(
+        self, name, description, price, quantity, country, germination_period, color
+    ):
+        super().__init__(name, description, price, quantity)
+        self.country = country
+        self.germination_period = germination_period
+        self.color = color

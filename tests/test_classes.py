@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, Iterator, Product
+from src.classes import Category, Iterator, LawnGrass, Product, Smartphone
 
 
 def test_new_product_creation():
@@ -213,3 +213,57 @@ def test_product_addition():
 
     total_cost = product1 + product2
     assert total_cost == 50000 * 2 + 30000 * 3  # 100000 + 90000 = 190000
+
+
+def test_smartphone_class():
+    phone = Smartphone(
+        "Смартфон",
+        "Современный смартфон",
+        30000,
+        3,
+        "Да",
+        "Последняя",
+        "123456Gb",
+        "green",
+    )
+    assert phone.name == "Смартфон"
+    assert phone.model == "Последняя"
+    assert phone.color == "green"
+    assert issubclass(phone.__class__, Product)
+
+
+def test_lawngrass_class():
+    grass = LawnGrass("Marivanna", "GreenGrass", 666, 6, "Africa", "6 weeks", "green")
+    assert grass.name == "Marivanna"
+    assert grass.description == "GreenGrass"
+    assert grass.price == 666
+    assert grass.quantity == 6
+    assert grass.color == "green"
+    assert issubclass(grass.__class__, Product)
+
+
+@pytest.fixture
+def smartphones() -> Category:
+    phone_1 = Product("Смартфон", "Современный смартфон", 30000, 3)
+    phone_2 = Product("Смартфон2", "Смартфон современнее", 40000, 2)
+    return Category("Смартфоны", "Описание", [phone_1, phone_2])
+
+
+@pytest.fixture
+def tv() -> Category:
+    tv_1 = Product("Телевизор", "большой телевизор", 50000, 2)
+    tv_2 = Product("Телевизор", "маленький телевизор", 20000, 2)
+    return Category("Телевизоры", "Описание", [tv_1, tv_2])
+
+
+def test_add_product_multiple_products():
+    category = Category("Electronics", "Gadgets and devices", [])
+
+    product1 = Product("Смартфон", "Современный смартфон", 30000, 3)
+    product2 = Product("Телевизор", "большой телевизор", 50000, 2)
+
+    category.add_product(product1)
+    category.add_product(product2)
+
+    assert len(category._Category__products) == 2
+    assert category.product_count == 10
