@@ -135,10 +135,14 @@ else:
 
 
 phone_category = Category(
-    "Смартфоны", "Обычные смартфоны", [phone1, phone2]
+    "Смартфоны",
+    "Обычные смартфоны",
+    [phone1, phone2]
 )
 grass_category = Category(
-    "Травка", "Совершенно обычная трава", [grass1, grass2]
+    "Травка",
+    "Совершенно обычная трава",
+    [grass1, grass2]
 )
 
 phone_category.add_product(phone2)
