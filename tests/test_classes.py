@@ -224,7 +224,7 @@ def test_smartphone_class():
         "Да",
         "Последняя",
         "123456Gb",
-        "green",
+        "green"
     )
     assert phone.name == "Смартфон"
     assert phone.model == "Последняя"

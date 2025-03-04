@@ -91,7 +91,7 @@ class Category:
             self.__products.append(product)
             self.product_count += 1
         else:
-            raise Exception
+            raise TypeError
 
     @property
     def products(self):
