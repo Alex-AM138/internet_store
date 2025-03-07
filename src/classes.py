@@ -1,4 +1,41 @@
-class Product:
+from abc import ABC, abstractmethod
+
+
+class Mixin:
+    """
+    Класс-миксин, который при создании объекта, то есть при работе метода
+    __init__, печатает в консоль информацию о том,
+    от какого класса и с какими параметрами был создан объект.
+    """
+    def __init__(self):
+        print(repr(self))
+
+    def __repr__(self):
+        return f"{self.name}, {self.description}, {self.__price}, {self.quantity})"
+
+
+class BaseProduct(ABC):
+    """
+    Абстрактный родительский класс для класса Product
+    """
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def __add__(self, other):
+        pass
+
+    @abstractmethod
+    def new_product(self, product_data, product_list=None):
+        pass
+
+    @abstractmethod
+    def price(self):
+        pass
+
+
+class Product(BaseProduct):
     """
     Класс для представления товара.
     """
