@@ -1,4 +1,4 @@
-from src.classes import Category, Product, LawnGrass, Smartphone
+from src.classes import Category, LawnGrass, Product, Smartphone
 
 if __name__ == "__main__":
     product1 = Product(
@@ -41,23 +41,17 @@ if __name__ == "__main__":
     print(new_product.price)
 
 
-grass1 = LawnGrass("Marivanna",
-                   "GreenGrass",
-                   666,
-                   6,
-                   "Africa",
-                   "6 weeks",
-                   "green"
-                   )
+grass1 = LawnGrass("Marivanna", "GreenGrass", 666, 6, "Africa", "6 weeks", "green")
 
-grass2 = LawnGrass("Marivanna 2.0",
-                   "GreenGreenGrass",
-                   6666,
-                   66,
-                   "South Africa",
-                   "2 weeks",
-                   "light green"
-                   )
+grass2 = LawnGrass(
+    "Marivanna 2.0",
+    "GreenGreenGrass",
+    6666,
+    66,
+    "South Africa",
+    "2 weeks",
+    "light green",
+)
 
 
 print(grass1.name)
@@ -77,26 +71,12 @@ print(grass2.germination_period)
 print(grass2.color)
 
 phone1 = Smartphone(
-        "Смартфон",
-        "Современный смартфон",
-        30000,
-        3,
-        "Да",
-        "Последняя",
-        "123456Gb",
-        "green"
-                    )
+    "Смартфон", "Современный смартфон", 30000, 3, "Да", "Последняя", "123456Gb", "green"
+)
 
 phone2 = Smartphone(
-        "Iphone",
-        "Popular smartphone",
-        80000,
-        4,
-        "Usual",
-        "16",
-        "256Gb",
-        "grey"
-                    )
+    "Iphone", "Popular smartphone", 80000, 4, "Usual", "16", "256Gb", "grey"
+)
 
 
 print(phone1.name)
@@ -134,16 +114,8 @@ else:
     print("No Error")
 
 
-phone_category = Category(
-    "Смартфоны",
-    "Обычные смартфоны",
-    [phone1, phone2]
-)
-grass_category = Category(
-    "Травка",
-    "Совершенно обычная трава",
-    [grass1, grass2]
-)
+phone_category = Category("Смартфоны", "Обычные смартфоны", [phone1, phone2])
+grass_category = Category("Травка", "Совершенно обычная трава", [grass1, grass2])
 
 phone_category.add_product(phone2)
 

@@ -1,23 +1,28 @@
 from abc import ABC, abstractmethod
 
 
-class Mixin:
+class MixinLog:
     """
     Класс-миксин, который при создании объекта, то есть при работе метода
     __init__, печатает в консоль информацию о том,
     от какого класса и с какими параметрами был создан объект.
     """
+
     def __init__(self):
         print(repr(self))
 
     def __repr__(self):
-        return f"{self.name}, {self.description}, {self.__price}, {self.quantity})"
+        attributes = []
+        for attr, value in self.__dict__.items():
+            attributes.append(f"{attr}={value}")
+        return f"{self.__class__.__name__}({', '.join(attributes)})"
 
 
 class BaseProduct(ABC):
     """
     Абстрактный родительский класс для класса Product
     """
+
     @abstractmethod
     def __str__(self):
         pass
@@ -35,7 +40,25 @@ class BaseProduct(ABC):
         pass
 
 
-class Product(BaseProduct):
+class BaseCategory(ABC):
+    """
+    Абстрактный родительский класс для класса Category
+    """
+
+    @abstractmethod
+    def __str__(self):
+        pass
+
+    @abstractmethod
+    def add_product(self, product):
+        pass
+
+    @abstractmethod
+    def products(self):
+        pass
+
+
+class Product(BaseProduct, MixinLog):
     """
     Класс для представления товара.
     """
@@ -50,6 +73,7 @@ class Product(BaseProduct):
         self.description = description
         self.__price = price
         self.quantity = quantity
+        super().__init__()
 
     def __str__(self):
         return f"{self.name}, {self.__price} руб. Остаток: {self.quantity} шт.\n"
@@ -99,7 +123,7 @@ class Product(BaseProduct):
             self.__price = new_price
 
 
-class Category:
+class Category(BaseCategory):
     """
     Класс для представления категории товаров.
     """
@@ -179,3 +203,36 @@ class LawnGrass(Product):
         self.country = country
         self.germination_period = germination_period
         self.color = color
+
+
+class Order(BaseCategory, MixinLog):
+    """
+    Класс, который выводит, какой товар был куплен,
+    количество купленного товара, а также итоговую стоимость.
+    В заказе может быть указан только один товар.
+    """
+
+    def __init__(self, product, quantity):
+        if not isinstance(product, Product):
+            raise TypeError("В заказ можно добавить только объект класса Product.")
+        if quantity <= 0:
+            raise ValueError("Количество товара должно быть больше нуля.")
+
+        self.product = product
+        self.quantity = quantity
+        super().__init__()
+
+    def __str__(self):
+        total_cost = self.product.price * self.quantity
+        return (
+            f"Заказ: {self.product.name}, {self.quantity} шт.\n"
+            f"Цена за единицу: {self.product.price} руб.\n"
+            f"Итоговая стоимость: {total_cost} руб."
+        )
+
+    def add_product(self, product):
+        raise NotImplementedError("В заказе может быть только один товар.")
+
+    @property
+    def products(self):
+        return f"{self.product.name}, {self.quantity} шт., {self.product.price} руб."

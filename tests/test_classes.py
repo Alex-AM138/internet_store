@@ -1,6 +1,6 @@
 import pytest
 
-from src.classes import Category, Iterator, LawnGrass, Product, Smartphone
+from src.classes import Category, Iterator, LawnGrass, Order, Product, Smartphone
 
 
 def test_new_product_creation():
@@ -224,7 +224,7 @@ def test_smartphone_class():
         "Да",
         "Последняя",
         "123456Gb",
-        "green"
+        "green",
     )
     assert phone.name == "Смартфон"
     assert phone.model == "Последняя"
@@ -267,3 +267,23 @@ def test_add_product_multiple_products():
 
     assert len(category._Category__products) == 2
     assert category.product_count == 10
+
+
+def test_print_mixin(capsys):
+    LawnGrass("Marivanna", "GreenGrass", 666, 6, "Africa", "6 weeks", "green")
+    message = capsys.readouterr()
+    assert (
+        message.out.strip()
+        == "LawnGrass(name=Marivanna, description=GreenGrass, _Product__price=666, quantity=6)"
+    )
+
+
+@pytest.fixture
+def sample_product():
+    return Product(name="ноутбук", description="для работы", price=1000.0, quantity=2)
+
+
+def test_order_creation(sample_product):
+    order = Order(product=sample_product, quantity=2)
+    assert order.product == sample_product
+    assert order.quantity == 2
