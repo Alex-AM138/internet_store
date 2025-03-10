@@ -1,14 +1,7 @@
 import pytest
 
-from src.classes import (
-    Category,
-    Iterator,
-    LawnGrass,
-    Order,
-    Product,
-    Smartphone,
-    ZeroQuantityException,
-)
+from src.classes import (Category, Iterator, LawnGrass, Order, Product,
+                         Smartphone, ZeroQuantityException)
 
 
 def test_new_product_creation():
