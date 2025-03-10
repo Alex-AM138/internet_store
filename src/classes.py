@@ -1,6 +1,14 @@
 from abc import ABC, abstractmethod
 
 
+class ZeroQuantityException(Exception):
+    """
+    Класс, исключение для случая, когда количество товара равно нулю.
+    """
+    def __init__(self, message='Товар с нулевым количеством не может быть добавлен'):
+        super().__init__(message)
+
+
 class MixinLog:
     """
     Класс-миксин, который при создании объекта, то есть при работе метода
@@ -149,8 +157,16 @@ class Category(BaseCategory):
 
     def add_product(self, product):
         if isinstance(product, Product) or issubclass(self.__class__, Product):
-            self.__products.append(product)
-            self.product_count += 1
+            try:
+                if product.quantity <= 0:
+                    raise ZeroQuantityException
+            except ZeroQuantityException as e:
+                print(e)
+            else:
+                self.__products.append(product)
+                self.product_count += 1
+            finally:
+                print("Операция добавления продукта завершена")
         else:
             raise TypeError
 
