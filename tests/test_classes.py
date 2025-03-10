@@ -1,6 +1,14 @@
 import pytest
 
-from src.classes import Category, Iterator, LawnGrass, Order, Product, Smartphone
+from src.classes import (
+    Category,
+    Iterator,
+    LawnGrass,
+    Order,
+    Product,
+    Smartphone,
+    ZeroQuantityException,
+)
 
 
 def test_new_product_creation():
@@ -287,3 +295,14 @@ def test_order_creation(sample_product):
     order = Order(product=sample_product, quantity=2)
     assert order.product == sample_product
     assert order.quantity == 2
+
+
+def test_zero_quantity_exception():
+    with pytest.raises(ZeroQuantityException) as exc_info:
+        raise ZeroQuantityException
+    assert str(exc_info.value) == "Товар с нулевым количеством не может быть добавлен"
+
+
+def test_avg_price_zero_quantity():
+    category = Category("тест", "тест1", [Product("тест2", "тест3", 111, 0)])
+    assert category.avg_price() == 0

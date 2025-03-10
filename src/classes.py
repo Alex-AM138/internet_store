@@ -5,7 +5,8 @@ class ZeroQuantityException(Exception):
     """
     Класс, исключение для случая, когда количество товара равно нулю.
     """
-    def __init__(self, message='Товар с нулевым количеством не может быть добавлен'):
+
+    def __init__(self, message="Товар с нулевым количеством не может быть добавлен"):
         super().__init__(message)
 
 
@@ -176,6 +177,24 @@ class Category(BaseCategory):
         for products in self.__products:
             result = f"{products.name}, {products.price} руб. Остаток {products.quantity} шт. \n"
         return result
+
+    def avg_price(self):
+        """
+        Вычисляет средний ценник всех товаров в категории,
+        если товаров нет, то возвращает 0.
+        """
+        total_amount = 0
+        products_quantity = 0
+
+        for product in self.__products:
+            total_amount += product.price * product.quantity
+            products_quantity += product.quantity
+
+        try:
+            avg_price = total_amount / products_quantity
+        except ZeroDivisionError:
+            return 0
+        return round(avg_price, 2)
 
 
 class Iterator:
